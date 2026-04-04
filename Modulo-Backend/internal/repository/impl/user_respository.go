@@ -37,3 +37,12 @@ func (r *userRepository) FindByID(id uuid.UUID) (*model.User, error) {
 	}
 	return &user, nil
 }
+
+func (r *userRepository) GetAll() ([]model.User, error) {
+	var users []model.User
+	err := r.db.Select("id", "username", "email", "created_at", "updated_at").Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}

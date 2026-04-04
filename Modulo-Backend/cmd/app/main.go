@@ -20,6 +20,7 @@ func main() {
 
 	repos := database.NewRepositories(db)
 	authHandler := handler.NewAuthHandler(repos.User, cfg)
+	userHandler := handler.NewUserHandler(repos.User)
 
 	r := gin.Default()
 
@@ -30,6 +31,7 @@ func main() {
 	// Rutas
 	r.POST("/api/auth/register", authHandler.Register)
 	r.POST("/api/auth/login", authHandler.Login)
+	r.GET("/api/users", userHandler.GetAllUsers)
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
