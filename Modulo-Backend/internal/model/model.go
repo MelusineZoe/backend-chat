@@ -12,7 +12,7 @@ type User struct {
 	ID        uuid.UUID      `gorm:"type:uuid;primary_key;default:gen_random_uuid()" json:"id"`
 	Username  string         `gorm:"size:50;unique;not null" json:"username" validate:"required,min=3,max=50"`
 	Email     string         `gorm:"size:100;unique;not null" json:"email" validate:"required,email"`
-	Password  string         `gorm:"size:255;not null" json:"-"` // Nunca devolver la contraseña
+	Password  string         `gorm:"column:password_hash;size:255;not null" json:"-"` // Nunca devolver la contraseña
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
