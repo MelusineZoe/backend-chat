@@ -26,4 +26,23 @@ func (User) TableName() string {
 // Models lista todos los modelos para AutoMigrate
 var Models = []interface{}{
 	&User{},
+	&Room{},
+	&Message{},
+}
+
+// Room represents a chat room or similar entity
+type Room struct {
+	ID   uuid.UUID `json:"id" gorm:"type:uuid;primary_key"`
+	Type string    `json:"type" gorm:"not null"`
+	// Add other fields as needed, e.g., Name, CreatedAt, etc.
+}
+
+// Message represents a chat message
+type Message struct {
+	ID        uuid.UUID `json:"id" gorm:"type:uuid;primary_key"`
+	RoomID    uuid.UUID `json:"room_id" gorm:"type:uuid;not null"`
+	UserID    uuid.UUID `json:"user_id" gorm:"type:uuid;not null"`
+	Content   string    `json:"content" gorm:"not null"`
+	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }

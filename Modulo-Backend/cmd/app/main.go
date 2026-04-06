@@ -8,6 +8,7 @@ import (
 	"backend/internal/database"
 	"backend/internal/handler"
 	"backend/internal/middleware"
+	"backend/internal/ws"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,6 +40,11 @@ func main() {
 			"message": "Backend funcionando correctamente - " + cfg.ServerPort,
 		})
 	})
+	// Después de las rutas de auth
+	r.GET("/ws", middleware.JWTAuth(cfg.JWTSecret), handler.WebSocketConnect)
+
+	// Iniciar el hub de WebSocket
+	go ws.GlobalHub.Run()
 
 	log.Printf("🚀 Servidor corriendo en http://localhost:%s", cfg.ServerPort)
 
